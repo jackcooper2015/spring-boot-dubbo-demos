@@ -2,6 +2,7 @@
 
 ##框架包含那些？
 * mybatis-plus 增强版 mybatis,简化mapper，service等待代码编写任务
+   * [mybatisplus使用指南](http://mp.baomidou.com/docs/general-crud.html)
 * spring-boot 简化新Spring应用的初始搭建以及开发过程
 * spring-boot-starter-dubbo 基于dubbo 2.5.3的starter,实现基于@Service,@ @Reference注解实现服务的注册与发现，简化传统spring-consumer.xml与spring-provider.xml的配置
 * 整合国外知名bootstrap前端框架inspinia
