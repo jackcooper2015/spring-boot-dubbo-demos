@@ -424,6 +424,8 @@
                         <th>邮箱</th>
                         <th>手机号</th>
                         <th>qq号</th>
+                        <th>创建时间</th>
+                        <th>修改时间</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -435,6 +437,8 @@
                                 <td>${user.email}</td>
                                 <td class="center">${user.tel}</td>
                                 <td class="center">${user.qq}</td>
+                                <td class="center">${user.created?string('yyyy-MM-dd HH:mm:ss')}</td>
+                                <td class="center">${user.updated?date} ${user.updated?time} </td>
                             </tr>
                         </#list>
                     </#if>
