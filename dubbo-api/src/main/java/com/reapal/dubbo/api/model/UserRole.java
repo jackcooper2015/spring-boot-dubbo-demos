@@ -1,9 +1,10 @@
 package com.reapal.dubbo.api.model;
 
+import com.baomidou.mybatisplus.annotations.TableName;
+
 /**
  * Created by jack-cooper on 2017/1/15.
  */
-
 public class UserRole extends BaseEntity {
 
     private String role;

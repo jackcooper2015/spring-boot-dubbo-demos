@@ -1,0 +1,18 @@
+server:
+  port: 7070
+  display-name: cdubbo-web
+
+spring:
+  dubbo:
+    application:
+      name: dubbo-web
+    registry:
+      address: zookeeper://10.168.17.75:2181
+    scan: com.reapal.dubbo.web
+  mvc:
+      view:
+          prefix: /templates/
+          suffix: .ftl
+  freemarker:
+      cache: false
+      request-context-attribute: request

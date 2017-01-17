@@ -14,7 +14,6 @@ import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.ObjectUtils;
@@ -77,6 +76,8 @@ public class MybatisPlusConfig {
         mybatisPlus.setGlobalConfig(globalConfig);
         MybatisConfiguration mc = new MybatisConfiguration();
         mc.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
+        //mapUnderscoreToCamelCase：是否启用下划线与驼峰式命名规则的映射（如first_name => firstName）
+        mc.setMapUnderscoreToCamelCase(true);
         mybatisPlus.setConfiguration(mc);
         if (this.databaseIdProvider != null) {
             mybatisPlus.setDatabaseIdProvider(this.databaseIdProvider);
