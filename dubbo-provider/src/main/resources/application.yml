@@ -32,9 +32,6 @@ spring:
         host:
       scan: com.reapal
 
-
-
-
 mybatis:
     type-aliases-package: com.reapal.dubbo.api.model
     mapper-locations: classpath:mapper/*.xml
