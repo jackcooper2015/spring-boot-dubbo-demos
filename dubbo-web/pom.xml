@@ -53,7 +53,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>dubbo-consumer</finalName>
+		<finalName>dubbo-web</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
