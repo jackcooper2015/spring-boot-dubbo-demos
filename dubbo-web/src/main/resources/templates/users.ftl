@@ -413,10 +413,49 @@
                             </a>
                         </div>
                     </div>
+
+                    <form action="${base}/users" method="post" name="listForm">
+                    <div class="ibox-content m-b-sm border-bottom">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="username">用户名</label>
+                                    <input type="text" id="username" name="username" value="<#if user.username?exists>${user.username}</#if>" placeholder="username" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="tel">手机号</label>
+                                    <input type="tel" id="tel" name="tel" value="<#if user.tel?exists>${user.tel}</#if>" placeholder="tel" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="email">email</label>
+                                    <input type="email" id="email" name="email" value="<#if user.email?exists>${user.email}</#if>" placeholder="email" class="form-control">
+                                </div>
+                            </div>
+                          <#--  <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="enabled">状态</label>
+                                    <select name="enabled" id="enabled" class="form-control">
+                                        <option value="1" selected="">Enabled</option>
+                                        <option value="0">Disabled</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                            <div class="col-sm-2">
+                                    <button class="btn btn-primary " type="submit"><i class="fa fa-check"></i>&nbsp;Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    </form>
+
                     <div class="ibox-content">
 
                         <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover dataTables-example" >
+                    <table class="table table-striped table-bordered table-hover" >
                     <thead>
                     <tr>
                         <th></th>
@@ -426,6 +465,8 @@
                         <th>qq号</th>
                         <th>创建时间</th>
                         <th>修改时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -439,6 +480,20 @@
                                 <td class="center">${user.qq}</td>
                                 <td class="center">${user.created?string('yyyy-MM-dd HH:mm:ss')}</td>
                                 <td class="center">${user.updated?date} ${user.updated?time} </td>
+                                <td>
+                                    <#if user.enabled?exists && user.enabled==1>
+                                        <span class="label label-primary">可用</span>
+                                    <#else>
+                                        <span class="label label-danger">不可用</span>
+                                    </#if>
+                                </td>
+                                <td>
+                                    <#if user.enabled?exists && user.enabled==1>
+                                    <#else>
+                                        <span class="label label-primary">置可用</span>
+                                    </#if>
+                                </td>
+
                             </tr>
                         </#list>
                     </#if>

@@ -26,6 +26,7 @@ package com.reapal.dubbo.web.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.reapal.dubbo.api.model.User;
 import com.reapal.dubbo.api.service.UserService;
@@ -47,8 +48,8 @@ public class UserController extends BaseController{
     private UserService userService;
 
     @RequestMapping
-        public ModelAndView getAll(ModelAndView mv, Page<User> page) {
-        Page<User> userPage = userService.selectPage(page);
+    public ModelAndView getAll(ModelAndView mv,User user, Page<User> page) {
+        Page<User> userPage = userService.selectPage(page,new EntityWrapper<>(user));
         mv.addObject("page",userPage);
         mv.setViewName("/users");
         return mv;
