@@ -17,13 +17,15 @@ public class DataSourceAop {
 
     Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Before("execution(* com.reapal.dubbo.provider.mapper..*.select*(..))")
+    @Before("execution(* com.reapal..mapper..*.select*(..))")
     public void setReadDataSourceType() {
         DataSourceContextHolder.read();
         log.info("dataSource切换到：Read");
     }
 
-    @Before("execution(* com.reapal.dubbo.provider.mapper..*.insert*(..)) or execution(* com.reapal.dubbo.provider.mapper..*.update*(..))")
+    @Before("execution(* com.reapal..mapper..*.insert*(..)) " +
+            "or execution(* com.reapal..*.mapper..*.update*(..)) " +
+            "or execution(* com.reapal..*.mapper..*.delete*(..))")
     public void setWriteDataSourceType() {
         DataSourceContextHolder.write();
         log.info("dataSource切换到：write");
