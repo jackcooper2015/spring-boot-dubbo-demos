@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.entity.GlobalConfiguration;
 import com.baomidou.mybatisplus.enums.DBType;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 
 import org.apache.ibatis.mapping.DatabaseIdProvider;
@@ -14,21 +17,29 @@ import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jack-cooper on 2017/1/16.
  */
 
 @Configuration
+@ConditionalOnClass({EnableTransactionManagement.class})
+@Import({ DataSourceConfiguration.class})
+@MapperScan("com.reapal.dubbo.provider.mapper*")
 public class MybatisPlusConfig {
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     private MybatisProperties properties;
@@ -41,6 +52,13 @@ public class MybatisPlusConfig {
 
     @Autowired(required = false)
     private DatabaseIdProvider databaseIdProvider;
+
+    @Value("${spring.datasource.type}")
+    private Class<? extends DataSource> dataSourceType;
+    @Resource(name = "writeDataSource")
+    private DataSource dataSource;
+    @Resource(name = "readDataSources")
+    private List<DataSource> readDataSources;
 
     /**
      *	 mybatis-plus分页插件
@@ -59,7 +77,7 @@ public class MybatisPlusConfig {
     @Bean
     public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean() {
         MybatisSqlSessionFactoryBean mybatisPlus = new MybatisSqlSessionFactoryBean();
-        mybatisPlus.setDataSource(dataSource);
+        mybatisPlus.setDataSource(roundRobinDataSouceProxy());
         mybatisPlus.setVfs(SpringBootVFS.class);
         if (StringUtils.hasText(this.properties.getConfigLocation())) {
             mybatisPlus.setConfigLocation(this.resourceLoader.getResource(this.properties.getConfigLocation()));
@@ -72,7 +90,7 @@ public class MybatisPlusConfig {
         GlobalConfiguration globalConfig = new GlobalConfiguration();
         globalConfig.setDbType(DBType.MYSQL.name());
         // ID 策略 AUTO->`0`("数据库ID自增") INPUT->`1`(用户输入ID") ID_WORKER->`2`("全局唯一ID") UUID->`3`("全局唯一ID")
-        globalConfig.setIdType(2);
+        globalConfig.setIdType(0);
         mybatisPlus.setGlobalConfig(globalConfig);
         MybatisConfiguration mc = new MybatisConfiguration();
         mc.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
@@ -93,4 +111,29 @@ public class MybatisPlusConfig {
         }
         return mybatisPlus;
     }
+
+
+
+    /**
+     * 有多少个数据源就要配置多少个bean
+     * @return
+     */
+    @Bean
+    public AbstractRoutingDataSource roundRobinDataSouceProxy() {
+        int size = Integer.parseInt("1");
+        MyAbstractRoutingDataSource proxy = new MyAbstractRoutingDataSource(size);
+        Map<Object, Object> targetDataSources = new HashMap<Object, Object>();
+        // DataSource writeDataSource = SpringContextHolder.getBean("writeDataSource");
+        // 写
+        targetDataSources.put(DataSourceType.write.getType(),dataSource);
+        // targetDataSources.put(DataSourceType.read.getType(),readDataSource);
+        //多个读数据库时
+        for (int i = 0; i < size; i++) {
+            targetDataSources.put(i, readDataSources.get(i));
+        }
+        proxy.setDefaultTargetDataSource(dataSource);
+        proxy.setTargetDataSources(targetDataSources);
+        return proxy;
+    }
+
 }

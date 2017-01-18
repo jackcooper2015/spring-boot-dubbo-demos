@@ -24,6 +24,7 @@
 
 package com.reapal.dubbo.api.model;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Max;
@@ -42,6 +43,7 @@ public class User extends BaseEntity {
     private String usertype;
     private Integer enabled;
     private String qq;
+    @Email
     private String email;
     @Max(value=11, message="不能超过11位")
     private String tel;

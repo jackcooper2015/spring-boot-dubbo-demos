@@ -56,6 +56,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- 支持aop编程  包含spring-aop 和  AspectJ -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<distributionManagement>
