@@ -22,10 +22,10 @@
  * THE SOFTWARE.
  */
 
-package com.reapal.dubbo.api.service;
+package com.reapal.dubbo.api.service.service;
 
 import com.baomidou.mybatisplus.service.IService;
-import com.reapal.dubbo.api.model.User;
+import com.reapal.dubbo.api.service.model.User;
 
 /**
  * @author jack-cooper
