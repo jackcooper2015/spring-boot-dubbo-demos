@@ -1,6 +1,5 @@
 spring:
     datasource:
-        name: test
         url: jdbc:mysql://10.168.16.116:3306/test?useUnicode=true&characterEncoding=utf8
         username: root
         password: devApp2013
@@ -21,7 +20,6 @@ spring:
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
     slave:
-      name: test
       url: jdbc:mysql://10.168.16.116:3306/test?useUnicode=true&characterEncoding=utf8
       username: root
       password: devApp2013
@@ -57,8 +55,8 @@ spring:
 
 mybatis:
     type-aliases-package: com.reapal.dubbo.api.model
-    mapper-locations: classpath:mapper/*.xml
+    mapper-locations: classpath:com/reapal/dubbo/provider/mapper/xml/*Mapper.xml
 
-debug: true
+debug: false
 
 

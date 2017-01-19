@@ -15,6 +15,7 @@ import javax.sql.DataSource;
  * Created by jack-cooper on 2017/1/18.
  */
 @Configuration
+@Import({ DataSourceConfiguration.class})
 @EnableTransactionManagement
 public class DataSourceTransactionManager  extends DataSourceTransactionManagerAutoConfiguration {
 

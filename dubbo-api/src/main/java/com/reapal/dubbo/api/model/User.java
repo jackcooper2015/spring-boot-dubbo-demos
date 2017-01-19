@@ -24,6 +24,7 @@
 
 package com.reapal.dubbo.api.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -47,6 +48,9 @@ public class User extends BaseEntity {
     private String email;
     @Max(value=11, message="不能超过11位")
     private String tel;
+
+    @TableField(exist = false)  //数据库里没有但要用的属性
+    private boolean flag;
 
     public User(){
 
