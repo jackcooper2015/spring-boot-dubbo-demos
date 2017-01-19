@@ -1,6 +1,6 @@
 server:
   port: 7070
-  display-name: cdubbo-web
+  display-name: dubbo-web
 
 spring:
   dubbo:
