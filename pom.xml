@@ -20,7 +20,6 @@
 
 	<modules>
 		<module>dubbo-api</module>
-		<module>dubbo-generator</module>
 		<module>dubbo-consumer</module>
 		<module>dubbo-provider</module>
 		<module>dubbo-web</module>
